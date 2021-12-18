@@ -1,20 +1,20 @@
-Revisiting Memory Efficient Kernel Approximation: An Infidefinite Learning Perspective
+# Revisiting Memory Efficient Kernel Approximation: An Infidefinite Learning Perspective (Heilig, Münch, Schleif)
 
 This package extends the implementation of Si et al. (2014) and provides the experimental setups of the experiments presented in the main paper. 
 
 Compile and Run the program:
 
-1. To compile the program, please type "mex -largeArrayDims mykmeans.cpp" in the matlab environment to obtain the fast kmeans. 
+- To compile the program, please type "mex -largeArrayDims mykmeans.cpp" in the matlab environment to obtain the fast kmeans. 
 
-2. Eigenvalue experiment can be found in "experiments/eigenvalues/setupEigenvalues.m"
+- Eigenvalue experiment can be found in "experiments/eigenvalues/setupEigenvalues.m"
 
-3. Classification experiment can be found in "experiments/classification/setupClassification.m"
+- Classification experiment can be found in "experiments/classification/setupClassification.m"
 
-4. The main solver is located in "MEKA/meka.m", which is a extended and refactored version of Si et al. (2014)
+- The main solver is located in "MEKA/meka.m", which is a extended and refactored version of Si et al. (2014)
 
-
+---
 ===Experiments and extended MEKA Copyright===
-Copyright (c) 2021 Anonymous Author (because of double-blind reviews)
+Copyright (c) 2021 Simon Heilig, Maximilian Münch, Frank-Michael Schleif
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
