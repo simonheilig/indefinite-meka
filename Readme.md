@@ -1,5 +1,6 @@
-# Revisiting Memory Efficient Kernel Approximation: An Infidefinite Learning Perspective (Heilig, Münch, Schleif)
+# Memory Efficient Kernel Approximation for Non-Stationary and Indefinite Kernels (Heilig, Münch, Schleif)
 
+## 1. Implementation Hints
 This package extends the implementation of Si et al. (2014) and provides the experimental setups of the experiments presented in the main paper. 
 
 Compile and Run the program:
@@ -12,8 +13,50 @@ Compile and Run the program:
 
 - The main solver is located in "MEKA/meka.m", which is a extended and refactored version of Si et al. (2014)
 
----
-===Experiments and extended MEKA Copyright===
+## 2. Hyperparameters
+Typical hyperparameters which are obtained in the classification experiments are listed in following table. Note that the overall rank approximation is _c_ times _k_, since the same rank per cluster strategy was used. The parameters are tuned with a grid-search and 5-fold cross-validation. The classification results were collected via a 10-fold cross-validation and the hyperparameter tuning was executed in each fold. Hence, the following Table provides just an excerpt of the utilized parameters. 
+
+| Data Set | ID | _k_ | _c_ |<img src="https://latex.codecogs.com/svg.image?\gamma" title="\gamma" /> |<img src="https://latex.codecogs.com/svg.image?\rho" title="\rho" /> | _p;a_ | _C_<sub>rbf</sub> | _C_<sub>elm</sub> | _C_<sub>poly</sub> | _C_<sub>tl1</sub> | 
+| :---: |:---: |:---: |:---: |:---: |:---: |:---: |:---: |:---: |:---: |:---: |
+| spambase | 1 | 128    | 3  | 0.1 | 39.9 | 10;2 | 1000|1000| 1000|1|
+|artificial 1|2 | 64    |  3 |  1 | 1.4 | 8;2 |   100 |1 | 1000|10|
+|cpusmall|3 | 16 | 3 | 10 | 8.4 | 10;2 |10|10|1000|1|
+|gesture|4 |  16   |  3 |  15  | 22.4 | 10;2 |1000 |1000|100|1|
+|artificial 2|5 |  16  |  3   |  0.1 | 10.5 | 2;3 |  100 | 1|1|1|
+|pendigit| 6 | 16 | 3 | 1 | 11.2 | 8;3 | 10 | 100|100|100|
+
+## 3. Kernel Properties and Preprocessing
+The next table presents a brief overview of the different kernel functions used in this paper. We do not claim completeness of the listed properties and literature references but show information to support the relevance of an extended MEKA approach. The kernel properties of the Gaussian rbf and polynomial kernel are collected from [1] and in case of the other kernels the information are obtained from the first publishing paper. 
+
+| Kernel | Properties | Publications | Preprocessing |
+| :---: | --- | --- | ---|
+|Gaussian rbf | <img src="https://latex.codecogs.com/svg.image?\gamma&space;\ge&space;0" title="\gamma \ge 0" /></br> <img src="https://latex.codecogs.com/svg.image?k_{rbf}(x,y)&space;\ge&space;0" title="k_{rbf}(x,y) \ge 0" /></br><img src="https://latex.codecogs.com/svg.image?k_{rbf}(x,x)&space;=&space;1" title="k_{rbf}(x,x) = 1" /></br> infinite dimensional feature space</br> unitary-invariant</br> shift-invariant|introduced in [2] for the SVM; among other things it is used for kernel based methods on EEG signals [3], opinion mining and sentiment analysis [4], ground penetrating radar analysis [5] | [0,1]-Normalization|
+|Polynomial|<img src="https://latex.codecogs.com/svg.image?p&space;>&space;0,&space;q&space;\ge&space;0" title="p > 0, q \ge 0" /></br><img src="https://latex.codecogs.com/svg.image?\binom{d&plus;p}{p}&space;dimensional" title="\binom{d+p}{p}" /> feature space</br> unitary-invariant</br> non-stationary | one of the first ocurrences was [6]; among other things it is used for termite detection [7], person re-identification [8], speaker verification [9] | L2-Normalization |
+|Extreme Learning|parameter-insensitive</br> rbf alternative</br> differentiable</br> non-stationary | introduced in [10]; among other things it is used for clustering by fuzzy neural gas [11], alumina concentration estimation [12], predicting wear loss [13] | (<img src="https://latex.codecogs.com/svg.image?\sigma,\mu" title="\sigma,\mu" />)-Normalization</br> L2-Normalization |
+|Truncated Manhattan | <img src="https://latex.codecogs.com/svg.image?0&space;\le&space;\rho&space;\le&space;d" title="0 \le \rho \le d" /></br> two-level deep piecewise linear</br> compactly supported</br> indefinite</br><img src="https://latex.codecogs.com/svg.image?\rho&space;=&space;0.7d" title="\rho = 0.7d" /> stable performance</br> shift-invariant} | introduced in [14]; among other things it is used in LS-SVM and PCA [15], piecewise linear kernel support vector clustering [16] | [0,1]-Normalization |
+
+##### References
+<font size="2">
+[1] Shawe-Taylor, J. and Cristianini N. (2004). Kernel methods for pattern analysis. Cambridge University Press.</br>
+[2] Schölkopf, B., Sung, K.-K., Burges, C. J., Girosi, F., Niyogi, P., Poggio, T., and Vapnik, V. (1997). Comparing support vector machines with gaussian kernels to radial basis function classifiers. IEEE Transactions on Signal Processing, 45(11):2758–2765.</br>
+[3] Bajoulvand, A., Zargari Marandi, R., Daliri, M. R., and Sabzpoushan, S. H. (2017). Analysis of folk music preference of people from different ethnic groups using kernel-based methods on eeg signals. Applied Mathematics and Computation, 307:62–70.</br>
+[4] Gopi, A. P., Jyothi, R. N. S., Narayana, V. L., and Sandeep, K. S. (2020). Classification of tweets data based on polarity using improved rbf kernel of svm. International Journal of Information Technology, pages 1–16.</br>
+[5] Tbarki, K., Said, S. B., Ksantini, R., and Lachiri, Z. (2016). Rbf kernel based svm classification for landmine detection and discrimination. In 2016 International Image Processing, Applications and Systems (IPAS), pages 1–6. IEEE.</br>
+[6] Poggio, T. (1975). On optimal nonlinear associative recall. Biological Cybernetics, 19(4):201–209.</br>
+[7] Achirul Nanda, M., Boro Seminar, K., Nandika, D., and Maddu, A. (2018). A comparison study of kernel functions in the support vector machine and its application for termite detection. Information, 9(1):5.</br>
+[8] Chen, D., Yuan, Z., Hua, G., Zheng, N., and Wang, J. (2015). Similarity learning on an explicit polynomial kernel feature map for person re-identification. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pages 1565–1573.</br>
+[9] Yaman, S. and Pelecanos, J. (2013). Using polynomial kernel support vector machines for speaker verification. IEEE Signal Processing Letters, 20(9):901–904.</br>
+[10] Frénay, B. and Verleysen, M. (2011). Parameter-insensitive kernel in extreme learning for non-linear support vector regression. Neurocomputing, 74(16):2526–2531.</br>
+[11] Geweniger, T., Fischer, L., Kaden, M., Lange, M., and Villmann, T. (2013). Clustering by fuzzy neural gas and evaluation of fuzzy clusters. Computational Intelligence and Neuroscience, 2013.</br>
+[12] Zhang, S., Zhang, T., Yin, Y., and Xiao, W. (2017). Alumina concentration detection based on the kernel extreme learning machine. Sensors, 17(9):2002.</br>
+[13] Ulas, M., Altay, O., Gurgenc, T., and Ozel, C. (2020). A new approach for prediction of the wear loss of pta surface coatings using artificial neural network and basic, kernel-based, and weighted extreme learning machine. Friction, 8(6):1.</br>
+[14] Huang, X., Suykens, J. A. K., Wang, S., Hornegger, J., and Maier, A. (2017b). Classification With Truncated ℓ1 Distance Kernel. IEEE Transactions on Neural Networks and Learning Systems, 29(5):2025–2030.</br>
+[15] Huang, X., Maier, A., Hornegger, J., and Suykens, J. A. (2017a). Indefinite kernels in least squares support vector machines and principal component analysis. Applied and Computational Harmonic Analysis, 43(1):162–172.</br>
+[16] Shang, C., Huang, X., and You, F. (2017). Data-driven robust optimization based on kernel learning. Computers & Chemical Engineering, 106:464–479.</br>
+</font>
+
+## 4. Copyright
+### Experiments and Xxtended MEKA Copyright
 Copyright (c) 2021 Simon Heilig, Maximilian Münch, Frank-Michael Schleif
 All rights reserved.
 
@@ -45,7 +88,7 @@ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-===Original MEKA Copyright===
+### Original MEKA Copyright
 Copyright (c) 2014 Si Si,  Cho-Jui Hsieh, and Inderjit S. Dhillon
 All rights reserved.
 
