@@ -16,7 +16,7 @@ Compile and Run the program:
 ## 2. Hyperparameters
 Typical hyperparameters which are obtained in the classification experiments are listed in following table. Note that the overall rank approximation is _c_ times _k_, since the same rank per cluster strategy was used. The parameters are tuned with a grid-search and 5-fold cross-validation. The classification results were collected via a 10-fold cross-validation and the hyperparameter tuning was executed in each fold. Hence, the following Table provides just an excerpt of the utilized parameters. 
 
-| Data Set | ID | _k_ | _c_ |<img src="https://latex.codecogs.com/svg.image?\gamma" title="\gamma" /> |<img src="https://latex.codecogs.com/svg.image?\rho" title="\rho" /> | _p;a_ | _C_<sub>rbf</sub> | _C_<sub>elm</sub> | _C_<sub>poly</sub> | _C_<sub>tl1</sub> | 
+| Data Set | ID | _k_ | _c_ | γ | ρ | _p;a_ | _C_<sub>rbf</sub> | _C_<sub>elm</sub> | _C_<sub>poly</sub> | _C_<sub>tl1</sub> | 
 | :---: |:---: |:---: |:---: |:---: |:---: |:---: |:---: |:---: |:---: |:---: |
 | spambase | 1 | 128    | 3  | 0.1 | 39.9 | 10;2 | 1000|1000| 1000|1|
 |artificial 1|2 | 64    |  3 |  1 | 1.4 | 8;2 |   100 |1 | 1000|10|
@@ -30,10 +30,10 @@ The next table presents a brief overview of the different kernel functions used 
 
 | Kernel | Properties | Publications | Preprocessing |
 | :---: | --- | --- | ---|
-|Gaussian rbf | <img src="https://latex.codecogs.com/svg.image?\gamma&space;\ge&space;0" title="\gamma \ge 0" /></br> <img src="https://latex.codecogs.com/svg.image?k_{rbf}(x,y)&space;\ge&space;0" title="k_{rbf}(x,y) \ge 0" /></br><img src="https://latex.codecogs.com/svg.image?k_{rbf}(x,x)&space;=&space;1" title="k_{rbf}(x,x) = 1" /></br> infinite dimensional feature space</br> unitary-invariant</br> shift-invariant|introduced in [2] for the SVM; among other things it is used for kernel based methods on EEG signals [3], opinion mining and sentiment analysis [4], ground penetrating radar analysis [5] | [0,1]-Normalization|
-|Polynomial|<img src="https://latex.codecogs.com/svg.image?p&space;>&space;0,&space;q&space;\ge&space;0" title="p > 0, q \ge 0" /></br><img src="https://latex.codecogs.com/svg.image?\binom{d&plus;p}{p}&space;dimensional" title="\binom{d+p}{p}" /> feature space</br> unitary-invariant</br> non-stationary | one of the first ocurrences was [6]; among other things it is used for termite detection [7], person re-identification [8], speaker verification [9] | L2-Normalization |
-|Extreme Learning|parameter-insensitive</br> rbf alternative</br> differentiable</br> non-stationary | introduced in [10]; among other things it is used for clustering by fuzzy neural gas [11], alumina concentration estimation [12], predicting wear loss [13] | (<img src="https://latex.codecogs.com/svg.image?\sigma,\mu" title="\sigma,\mu" />)-Normalization</br> L2-Normalization |
-|Truncated Manhattan | <img src="https://latex.codecogs.com/svg.image?0&space;\le&space;\rho&space;\le&space;d" title="0 \le \rho \le d" /></br> two-level deep piecewise linear</br> compactly supported</br> indefinite</br><img src="https://latex.codecogs.com/svg.image?\rho&space;=&space;0.7d" title="\rho = 0.7d" /> stable performance</br> shift-invariant} | introduced in [14]; among other things it is used in LS-SVM and PCA [15], piecewise linear kernel support vector clustering [16] | [0,1]-Normalization |
+|Gaussian rbf | γ ≥ 0</br> k<sub>rbf</sub>(x, y) ≥ 0</br>k<sub>rbf</sub>(x, x) = 1</br> infinite dimensional feature space</br> unitary-invariant</br> shift-invariant|introduced in [2] for the SVM; among other things it is used for kernel based methods on EEG signals [3], opinion mining and sentiment analysis [4], ground penetrating radar analysis [5] | [0,1]-Normalization|
+|Polynomial|p > 0, q ≥ 0</br>"d + p choose p"-feature space</br> unitary-invariant</br> non-stationary | one of the first ocurrences was [6]; among other things it is used for termite detection [7], person re-identification [8], speaker verification [9] | L2-Normalization |
+|Extreme Learning|parameter-insensitive</br> rbf alternative</br> differentiable</br> non-stationary | introduced in [10]; among other things it is used for clustering by fuzzy neural gas [11], alumina concentration estimation [12], predicting wear loss [13] | (σ, µ)-Normalization</br> L2-Normalization |
+|Truncated Manhattan | 0 ≤ ρ ≤ d</br> two-level deep piecewise linear</br> compactly supported</br> indefinite</br>ρ = 0.7d stable performance</br> shift-invariant} | introduced in [14]; among other things it is used in LS-SVM and PCA [15], piecewise linear kernel support vector clustering [16] | [0,1]-Normalization |
 
 ##### References
 <font size="2">
