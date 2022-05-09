@@ -13,7 +13,23 @@ Compile and Run the program:
 
 - The main solver is located in "MEKA/meka.m", which is a extended and refactored version of Si et al. (2014)
 
-## 2. Hyperparameters
+## 2. Out of Sample Extension
+If the model has to be applied to new data points, one would like to modify them in a consistent way with respect to the training scenario. 
+In our proposal we provide a strategy for a shift correction and a normalization, which plays a key role and needs to be taken into account, if a new test point **x**' is considered. 
+
+The training model finally consists of the matrices **Q**<sup>i</sup>, the link matrix **L** a shift parameter λ<sub>shift</sub> and an index set **_I_** (block-wise denoted as **_I_**<sub>_i_</sub>), referring to known reference points. Further, the self-similarities
+k(**x**,**x**) of the training points need to be stored if a normalization is required for a non-stationary kernel function.
+
+The challenge of an out-of-sample extension can be solved in different ways,
+here we suggest two strategies:
+
+(1) In the direct approach, one needs to calculate the kernel evaluations of k(**x**',**x**), with respect to some **x**, e.g. the support vectors, needed in the prediction model. This is done directly on the original, unapproximated kernel function. If the kernel function has to be normalized an additional step, as shown in Remark 1, is required. 
+Note that by evaluating self similarities k(**x**,**x**) the parameter λ<sub>shift</sub> needs to be added. This approach is particular useful if the MEKA approximation is very accurate and the evaluation of the kernel function is cheap.
+
+(2) The indirect approach maps the new point in the approximated kernel representation as follows.
+From the MEKA algorithm part 2 we have stored the landmark matrices of each cluster **Q**<sup>i</sup>. Additionally, we need to store the cluster-wise matrices (from the SVD) used to generate **Q**<sup>i</sup>, which is rather cheap. Now we calculate the similarities of k(**x**',**x**<sub>_l_</sub>) for each block _i_, using the original kernel function, where _l_ ∈ **_I_**<sub>_i_</sub> are the landmark indices of block _i_. These small landmark vectors are used to generate an extended **Q**<sup>i</sup>. From the enlarged **Q**<sup>i</sup> a block-matrix **Q** is constructed and can be used in the same way as in the MEKA approach. Additional modifications regarding the shift correction and normalization can be applied as shown before.
+
+## 3. Hyperparameters
 Typical hyperparameters which are obtained in the classification experiments are listed in following table. Note that the overall rank approximation is _c_ times _k_, since the same rank per cluster strategy was used. The parameters are tuned with a grid-search and 5-fold cross-validation. The classification results were collected via a 10-fold cross-validation and the hyperparameter tuning was executed in each fold. Hence, the following Table provides just an excerpt of the utilized parameters. 
 
 | Data Set | ID | _k_ | _c_ | γ | ρ | _p;a_ | _C_<sub>rbf</sub> | _C_<sub>elm</sub> | _C_<sub>poly</sub> | _C_<sub>tl1</sub> | 
@@ -25,7 +41,7 @@ Typical hyperparameters which are obtained in the classification experiments are
 |artificial 2|5 |  16  |  3   |  0.1 | 10.5 | 2;3 |  100 | 1|1|1|
 |pendigit| 6 | 16 | 3 | 1 | 11.2 | 8;3 | 10 | 100|100|100|
 
-## 3. Kernel Properties and Preprocessing
+## 4. Kernel Properties and Preprocessing
 The next table presents a brief overview of the different kernel functions used in this paper. We do not claim completeness of the listed properties and literature references but show information to support the relevance of an extended MEKA approach. The kernel properties of the Gaussian rbf and polynomial kernel are collected from [1] and in case of the other kernels the information are obtained from the first publishing paper. 
 
 | Kernel | Properties | Publications | Preprocessing |
