@@ -72,7 +72,7 @@ The next table presents a brief overview of the different kernel functions used 
 </font>
 
 ## 4. Copyright
-### Experiments and Xxtended MEKA Copyright
+### Experiments and Extended MEKA Copyright
 Copyright (c) 2021 Simon Heilig, Maximilian Münch, Frank-Michael Schleif
 All rights reserved.
 
